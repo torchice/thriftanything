@@ -1,4 +1,5 @@
--- Isi ulang harga buku baru + sumbernya. Aman dijalankan berkali-kali.
+-- Isi harga buku baru + sumbernya, HANYA untuk baris yang masih kosong.
+-- Database adalah sumber kebenaran: nilai yang sudah ada tidak ditimpa.
 -- Jalankan di Supabase Dashboard > SQL Editor.
 
 -- 1. Pastikan kolomnya ada.
@@ -50,12 +51,11 @@ FROM (VALUES
   ('mens-guide-to-style', 60000, 'https://gagasmedia.net/buku/men-s-guide-to-style/'),
   ('mulai-mengerti', 120000, 'https://www.blibli.com/p/mulai-mengerti-edward-suhadi-ind/ps--BEM-13749-00429')
 ) AS v(slug, original_price, source)
-WHERE b.slug = v.slug;
+WHERE b.slug = v.slug
+  AND b.original_price IS NULL;
 
--- 3. Southtown tidak punya listing retail di Indonesia, jadi sengaja dikosongkan.
-UPDATE books
-SET original_price = NULL, original_price_source = NULL
-WHERE slug = 'southtown';
+-- 3. Southtown tidak punya listing retail di Indonesia. Dibiarkan apa adanya di
+--    sini supaya perintah ini tidak pernah menghapus nilai yang kamu isi sendiri.
 
 -- 4. Cek hasilnya.
 SELECT slug, price, original_price, original_price_source

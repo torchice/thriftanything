@@ -6,6 +6,11 @@
   by hand on 19 September 2026; every row carries the page the number came from.
   A title with no listing anywhere keeps NULL and the site shows no comparison.
 
+  FILLS BLANKS ONLY. A row that already carries an original_price is left alone,
+  because the database is the source of truth and a value corrected there must not
+  be rolled back to what this file happened to hold. Pass --overwrite to replace
+  existing values on purpose.
+
   Run: set -a && . ./.env.local && set +a && node scripts/fill-original-prices.mjs
 */
 import { createClient } from '@supabase/supabase-js';
@@ -59,10 +64,22 @@ const db = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const overwrite = process.argv.includes('--overwrite');
+
 for (const [slug, price, source] of PRICES) {
-  const { error } = await db
+  let query = db
     .from('books')
     .update({ original_price: price, original_price_source: source })
     .eq('slug', slug);
-  console.log(error ? `FAIL ${slug}: ${error.message}` : `ok   ${slug}  Rp${price.toLocaleString('id-ID')}`);
+
+  if (!overwrite) query = query.is('original_price', null);
+
+  const { data, error } = await query.select('slug');
+  if (error) {
+    console.log(`FAIL ${slug}: ${error.message}`);
+  } else if (data.length === 0) {
+    console.log(`skip ${slug}  already set in the database`);
+  } else {
+    console.log(`ok   ${slug}  Rp${price.toLocaleString('id-ID')}`);
+  }
 }

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node scripts/seed-books.ts"
+    "seed": "node scripts/seed-books.mjs",
+    "export-books": "node scripts/export-books-csv.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
