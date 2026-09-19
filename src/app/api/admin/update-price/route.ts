@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    /*
+      A misconfigured key throws before the request leaves the server. Surface
+      that message: it names the variable and the bad character, never a value.
+    */
+    const message = error instanceof Error ? error.message : '';
+    if (/SUPABASE_|NEXT_PUBLIC_SUPABASE_/.test(message)) {
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

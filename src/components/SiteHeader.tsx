@@ -15,10 +15,10 @@ export function SiteHeader({
         <Link
           href="/"
           className="no-underline focus-visible:outline-offset-4"
-          aria-label="Buku Bekas, balik ke depan"
+          aria-label="Thrift Anything, balik ke depan"
         >
           <span className="block font-display text-xl leading-none text-ink md:text-2xl">
-            Buku Bekas
+            Thrift Anything
           </span>
           <span className="mt-1 block text-xs tracking-[0.14em] text-body">
             SURABAYA

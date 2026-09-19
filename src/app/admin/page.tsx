@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { AdminContent } from './AdminContent';
 
 export const metadata = {
-  title: 'Admin - Buku Bekas',
+  title: 'Admin - Thrift Anything',
   robots: 'noindex, nofollow'
 };
 

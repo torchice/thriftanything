@@ -1,4 +1,4 @@
-# Design Direction: Buku Bekas
+# Design Direction: Thrift Anything
 
 ## Identity
 Toko buku bekas di Surabaya. Satu eksemplar per judul, foto asli buku yang dijual,

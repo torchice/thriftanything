@@ -26,12 +26,12 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   title: {
-    default: 'Buku Bekas, rak buku pribadi di Surabaya',
-    template: '%s | Buku Bekas'
+    default: 'Thrift Anything, rak buku pribadi di Surabaya',
+    template: '%s | Thrift Anything'
   },
   description: DESCRIPTION,
   openGraph: {
-    title: 'Buku Bekas, rak buku pribadi di Surabaya',
+    title: 'Thrift Anything, rak buku pribadi di Surabaya',
     description: DESCRIPTION,
     locale: 'id_ID',
     type: 'website'

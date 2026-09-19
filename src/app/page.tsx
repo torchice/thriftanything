@@ -319,7 +319,7 @@ export default function Home() {
 
       <footer className="bg-tan">
         <div className="mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
-          <p className="font-display text-2xl text-ink">Buku Bekas</p>
+          <p className="font-display text-2xl text-ink">Thrift Anything</p>
           <p className="mt-1 max-w-prose text-sm text-body">
             Ini rak buku pribadi aku di Surabaya, bukan toko. Mau nanya stok, kondisi,
             atau ongkir, paling cepet lewat WhatsApp.
