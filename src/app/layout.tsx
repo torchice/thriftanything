@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { CartProvider } from '@/lib/CartContext';
+import { PageLayout } from '@/components/PageLayout';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -21,7 +23,11 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>{children}</body>
+      <body>
+        <CartProvider>
+          <PageLayout>{children}</PageLayout>
+        </CartProvider>
+      </body>
     </html>
   );
 }

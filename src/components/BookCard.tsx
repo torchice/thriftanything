@@ -1,9 +1,41 @@
 'use client';
 
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCart } from '@/lib/CartContext';
 import { EditionBadge } from './EditionBadge';
 import { SoldStamp } from './SoldStamp';
+
+function AddToCartButton({ book }: { book: Book }) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addItem({
+      slug: book.slug,
+      title: book.title,
+      edition: book.edition,
+      price: book.price
+    });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      className={`w-full py-2 px-3 text-sm font-body transition-all ${
+        added
+          ? 'bg-rule text-muted'
+          : 'bg-accent text-paper hover:opacity-80'
+      }`}
+    >
+      {added ? '✓ Ditambahkan' : 'Tambah ke Keranjang'}
+    </button>
+  );
+}
 
 interface Book {
   slug: string;
@@ -55,15 +87,7 @@ export function BookCard({ book }: { book: Book }) {
           {book.sold ? (
             <div className="text-sm text-muted">Sudah terjual</div>
           ) : (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                // TODO: add to cart
-              }}
-              className="w-full py-2 px-3 bg-accent text-paper text-sm font-body hover:opacity-80 transition-opacity"
-            >
-              Tambah ke Keranjang
-            </button>
+            <AddToCartButton book={book} />
           )}
         </div>
       </div>
