@@ -1,0 +1,9 @@
+node_modules
+.next
+.env.local
+.env.*.local
+dist
+build
+*.pem
+.DS_Store
+.vercel

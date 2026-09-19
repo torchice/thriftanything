@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #F7F4ED;
+  --ink: #16130F;
+  --muted: #6B6459;
+  --rule: #DED7C9;
+  --accent: #8A2B1E;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14120F;
+    --ink: #EFEAE0;
+    --muted: #9B9089;
+    --rule: #3E3935;
+    --accent: #C4553F;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #14120F;
+  --ink: #EFEAE0;
+  --muted: #9B9089;
+  --rule: #3E3935;
+  --accent: #C4553F;
+}
+
+* {
+  @apply antialiased;
+}
+
+html, body {
+  @apply w-full h-full;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Instrument Serif', 'Libre Baskerville', serif;
+  font-weight: 400;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 200ms;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+.border-rule {
+  border-color: var(--rule);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-accent {
+  color: var(--accent);
+}
