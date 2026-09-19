@@ -8,6 +8,7 @@ interface Book {
   title: string;
   edition: 'original' | 'non_original';
   price: number;
+  original_price?: number;
   sold: boolean;
 }
 

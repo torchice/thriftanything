@@ -11,6 +11,7 @@ interface Book {
   language: string;
   edition: 'original' | 'non_original';
   price: number;
+  original_price?: number;
   description: string;
   photo_url: string;
   sold: boolean;

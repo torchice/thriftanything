@@ -43,6 +43,7 @@ interface Book {
   language: string;
   edition: 'original' | 'non_original';
   price: number;
+  original_price?: number;
   photo_url: string;
   sold: boolean;
 }
@@ -80,8 +81,16 @@ export function BookCard({ book }: { book: Book }) {
             </span>
           </div>
 
-          <div className="font-display text-lg text-accent font-semibold">
-            Rp{book.price.toLocaleString('id-ID')}
+          <div className="space-y-1">
+            {book.original_price && book.original_price > book.price && (
+              <div className="text-sm text-muted line-through">
+                Rp{book.original_price.toLocaleString('id-ID')}
+              </div>
+            )}
+            <div className="font-display text-lg text-accent font-semibold">
+              Rp{book.price.toLocaleString('id-ID')}
+            </div>
+            <div className="text-xs text-muted">Harga Exclude Ongkir</div>
           </div>
 
           {book.sold ? (

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { EditionBadge } from '@/components/EditionBadge';
+import { DetailCTA } from './DetailCTA';
 
 export const revalidate = 60;
 
@@ -13,6 +14,7 @@ interface Book {
   language: string;
   edition: 'original' | 'non_original';
   price: number;
+  original_price?: number;
   description: string;
   photo_url: string;
   sold: boolean;
@@ -115,11 +117,16 @@ export default async function BookDetail({
               {/* Price */}
               <div className="border-b border-rule pb-6">
                 <div className="text-sm text-muted mb-2">Harga</div>
+                {book.original_price && book.original_price > book.price && (
+                  <div className="text-lg text-muted line-through mb-1">
+                    Rp{book.original_price.toLocaleString('id-ID')}
+                  </div>
+                )}
                 <div className="font-display text-4xl text-accent font-semibold">
                   Rp{book.price.toLocaleString('id-ID')}
                 </div>
                 <div className="text-xs text-muted mt-2">
-                  (Ongkir ditambah setelah konfirmasi)
+                  Harga Exclude Ongkir
                 </div>
               </div>
 
@@ -133,35 +140,7 @@ export default async function BookDetail({
             </div>
 
             {/* CTA */}
-            <div className="mt-12 space-y-3">
-              {book.sold ? (
-                <button
-                  disabled
-                  className="w-full py-4 px-6 bg-rule text-muted font-display text-lg cursor-not-allowed"
-                >
-                  Sudah Terjual
-                </button>
-              ) : (
-                <>
-                  <button
-                    onClick={() => {
-                      // TODO: add to cart
-                    }}
-                    className="w-full py-4 px-6 bg-accent text-paper font-display text-lg hover:opacity-80 transition-opacity"
-                  >
-                    Tambah ke Keranjang
-                  </button>
-                  <a
-                    href="https://wa.me/6281216530559"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full py-4 px-6 border border-accent text-accent text-center font-display text-lg hover:bg-accent/5 transition-colors"
-                  >
-                    Pesan Langsung via WhatsApp
-                  </a>
-                </>
-              )}
-            </div>
+            <DetailCTA book={book} />
           </div>
         </div>
       </section>

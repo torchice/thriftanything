@@ -7,6 +7,7 @@ interface Book {
   slug: string;
   title: string;
   price: number;
+  original_price?: number;
   edition: string;
   sold: boolean;
   photo_url: string;
@@ -19,6 +20,9 @@ export function AdminContent() {
   const [error, setError] = useState('');
   const [books, setBooks] = useState<Book[]>([]);
   const [togglingSlug, setTogglingSlug] = useState<string | null>(null);
+  const [editingSlug, setEditingSlug] = useState<string | null>(null);
+  const [editPrice, setEditPrice] = useState('');
+  const [editOriginalPrice, setEditOriginalPrice] = useState('');
 
   useEffect(() => {
     checkAuth();
@@ -99,6 +103,51 @@ export function AdminContent() {
     }
   }
 
+  async function updatePrice(slug: string) {
+    if (!editPrice || isNaN(Number(editPrice)) || Number(editPrice) < 0) {
+      setError('Harga baru tidak valid');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/admin/update-price', {
+        method: 'POST',
+        body: JSON.stringify({
+          slug,
+          price: Number(editPrice),
+          original_price: editOriginalPrice ? Number(editOriginalPrice) : null
+        })
+      });
+
+      if (res.ok) {
+        setBooks((prev) =>
+          prev.map((b) =>
+            b.slug === slug
+              ? {
+                  ...b,
+                  price: Number(editPrice),
+                  original_price: editOriginalPrice ? Number(editOriginalPrice) : undefined
+                }
+              : b
+          )
+        );
+        setEditingSlug(null);
+        setEditPrice('');
+        setEditOriginalPrice('');
+      } else {
+        setError('Gagal memperbarui harga');
+      }
+    } catch (err) {
+      setError('Error updating price');
+    }
+  }
+
+  function openPriceEditor(book: Book) {
+    setEditingSlug(book.slug);
+    setEditPrice(book.price.toString());
+    setEditOriginalPrice(book.original_price?.toString() || '');
+  }
+
   if (loading) {
     return <div className="text-muted">Memuat...</div>;
   }
@@ -154,7 +203,8 @@ export function AdminContent() {
             <tr>
               <th className="text-left px-4 py-3 font-display">Judul</th>
               <th className="text-left px-4 py-3 font-display">Edisi</th>
-              <th className="text-right px-4 py-3 font-display">Harga</th>
+              <th className="text-right px-4 py-3 font-display">Harga Saat Ini</th>
+              <th className="text-right px-4 py-3 font-display">Harga Asli</th>
               <th className="text-center px-4 py-3 font-display">Status</th>
               <th className="text-center px-4 py-3 font-display">Aksi</th>
             </tr>
@@ -174,6 +224,15 @@ export function AdminContent() {
                 <td className="text-right px-4 py-3">
                   Rp{book.price.toLocaleString('id-ID')}
                 </td>
+                <td className="text-right px-4 py-3 text-sm">
+                  {book.original_price ? (
+                    <span className="text-muted line-through">
+                      Rp{book.original_price.toLocaleString('id-ID')}
+                    </span>
+                  ) : (
+                    <span className="text-muted">—</span>
+                  )}
+                </td>
                 <td className="text-center px-4 py-3">
                   <span
                     className={`text-xs px-2 py-1 ${
@@ -185,7 +244,13 @@ export function AdminContent() {
                     {book.sold ? 'TERJUAL' : 'TERSEDIA'}
                   </span>
                 </td>
-                <td className="text-center px-4 py-3">
+                <td className="text-center px-4 py-3 space-x-1">
+                  <button
+                    onClick={() => openPriceEditor(book)}
+                    className="px-3 py-1 text-xs border border-muted text-muted hover:bg-rule/30 transition-all"
+                  >
+                    Edit Harga
+                  </button>
                   <button
                     onClick={() => toggleSold(book.slug, book.sold)}
                     disabled={togglingSlug === book.slug}
@@ -215,6 +280,50 @@ export function AdminContent() {
           </>
         )}
       </div>
+
+      {/* Price edit modal */}
+      {editingSlug && (
+        <>
+          <div className="fixed inset-0 bg-black/40 z-40" onClick={() => setEditingSlug(null)} />
+          <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-paper border border-rule p-6 z-50 w-96 shadow-lg">
+            <h3 className="font-display text-lg mb-4">Edit Harga</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-muted mb-2">Harga Saat Ini (Rp)</label>
+                <input
+                  type="number"
+                  value={editPrice}
+                  onChange={(e) => setEditPrice(e.target.value)}
+                  className="w-full px-3 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-accent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-muted mb-2">Harga Asli (Rp) - Optional</label>
+                <input
+                  type="number"
+                  value={editOriginalPrice}
+                  onChange={(e) => setEditOriginalPrice(e.target.value)}
+                  className="w-full px-3 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-accent"
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => updatePrice(editingSlug)}
+                  className="flex-1 py-2 px-4 bg-accent text-paper font-display hover:opacity-80"
+                >
+                  Simpan
+                </button>
+                <button
+                  onClick={() => setEditingSlug(null)}
+                  className="flex-1 py-2 px-4 border border-rule text-ink hover:bg-rule/50"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

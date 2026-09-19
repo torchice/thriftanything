@@ -13,6 +13,7 @@
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.40.0",
     "clsx": "^2.1.1",
+    "csv-parse": "^7.0.2",
     "next": "15.5.7",
     "next-image-export-optimizer": "^1.19.0",
     "react": "^19.0.0",

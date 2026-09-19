@@ -160,6 +160,9 @@ export function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                   <span>Total</span>
                   <span>Rp{total.toLocaleString('id-ID')}</span>
                 </div>
+                <div className="text-xs text-muted">
+                  Harga Exclude Ongkir
+                </div>
               </div>
             </form>
           )}
@@ -182,7 +185,7 @@ export function CartDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () =
                 onClick={handleCheckout}
                 className="w-full py-3 px-4 bg-accent text-paper font-display hover:opacity-80 transition-opacity"
               >
-                Kirim ke WhatsApp
+                Pesan Sekarang
               </button>
               <button
                 onClick={() => setStep('cart')}
