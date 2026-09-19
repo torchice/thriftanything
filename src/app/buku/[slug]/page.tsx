@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { EditionBadge } from '@/components/EditionBadge';
+import { ConditionBadge, type BookCondition } from '@/components/ConditionBadge';
+import { Tag } from '@/components/Tag';
 import { DetailCTA } from './DetailCTA';
 
 export const revalidate = 60;
@@ -13,12 +15,16 @@ interface Book {
   author: string | null;
   language: string;
   edition: 'original' | 'non_original';
+  condition?: BookCondition | null;
   price: number;
-  original_price?: number;
+  original_price?: number | null;
+  original_price_source?: string | null;
   description: string;
   photo_url: string;
   sold: boolean;
 }
+
+const rupiah = (n: number) => `Rp${n.toLocaleString('id-ID')}`;
 
 async function getBook(slug: string) {
   const supabase = createClient();
@@ -28,10 +34,7 @@ async function getBook(slug: string) {
     .eq('slug', slug)
     .single();
 
-  if (error || !book) {
-    notFound();
-  }
-
+  if (error || !book) notFound();
   return book as Book;
 }
 
@@ -42,10 +45,16 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const book = await getBook(slug);
-  return {
-    title: book.title,
-    description: book.description
-  };
+  return { title: book.title, description: book.description };
+}
+
+function Row({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-4 py-3">
+      <dt className="text-sm text-body">{label}</dt>
+      <dd className="text-right text-sm text-ink">{children}</dd>
+    </div>
+  );
 }
 
 export default async function BookDetail({
@@ -55,105 +64,133 @@ export default async function BookDetail({
 }) {
   const { slug } = await params;
   const book = await getBook(slug);
+  const ref =
+    typeof book.original_price === 'number' && book.original_price > book.price
+      ? book.original_price
+      : null;
+  // Only an original edition can honestly claim a discount off the retail copy.
+  const isSameEdition = book.edition === 'original';
 
   return (
-    <main className="min-h-screen bg-paper text-ink">
-      {/* Breadcrumb */}
-      <nav className="py-4 px-6 border-b border-rule text-sm text-muted">
-        <Link href="/" className="text-accent hover:opacity-80">
-          Katalog
-        </Link>
-        <span className="mx-2">/</span>
-        <span>{book.title}</span>
+    <main>
+      <nav
+        aria-label="Remah roti"
+        className="border-b border-rule bg-tan px-5 py-3 text-sm md:px-8"
+      >
+        <div className="mx-auto flex max-w-5xl items-center gap-2">
+          <Link href="/#katalog">Katalog</Link>
+          <span aria-hidden="true" className="text-edge">
+            /
+          </span>
+          <span className="truncate text-body">{book.title}</span>
+        </div>
       </nav>
 
-      {/* Detail */}
-      <section className="py-12 px-6 md:py-20 md:px-12">
-        <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-12">
-          {/* Photo */}
-          <div className="flex flex-col gap-6">
-            <div className="bg-rule aspect-[2/3] relative">
+      <div className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-16">
+        <div className="grid gap-10 md:grid-cols-[minmax(0,420px)_1fr] md:gap-14">
+          <div>
+            <div className="relative aspect-[2/3] border border-edge bg-[#E6DAC4]">
               <Image
                 src={book.photo_url}
-                alt={book.title}
+                alt={`Sampul ${book.title}`}
                 fill
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 420px"
+                className={`object-cover ${book.sold ? 'opacity-40' : ''}`}
                 priority
               />
             </div>
-            <div className="text-sm text-muted">
-              Foto adalah buku asli yang dijual. Kondisi seperti terlihat.
-            </div>
+            <p className="mt-3 text-sm text-body">
+              Foto ini adalah buku yang dikirim, bukan foto stok penerbit. Kondisi
+              seperti terlihat.
+            </p>
           </div>
 
-          {/* Info */}
-          <div className="flex flex-col justify-between">
-            <div className="space-y-6">
-              <div>
-                <h1 className="font-display text-3xl md:text-4xl mb-3 leading-tight">
-                  {book.title}
-                </h1>
-                {book.author && (
-                  <p className="text-lg text-muted font-body">
-                    Oleh {book.author}
-                  </p>
-                )}
-              </div>
-
-              {/* Edition & Language */}
-              <div className="border-y border-rule py-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted">Edisi</span>
-                  <EditionBadge edition={book.edition} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted">Bahasa</span>
-                  <span className="font-body">
-                    {book.language === 'id' ? 'Indonesia' : 'English'}
-                  </span>
-                </div>
-              </div>
-
-              {/* Price */}
-              <div className="border-b border-rule pb-6">
-                <div className="text-sm text-muted mb-2">Harga</div>
-                {book.original_price && book.original_price > book.price && (
-                  <div className="text-lg text-muted line-through mb-1">
-                    Rp{book.original_price.toLocaleString('id-ID')}
-                  </div>
-                )}
-                <div className="font-display text-4xl text-accent font-semibold">
-                  Rp{book.price.toLocaleString('id-ID')}
-                </div>
-                <div className="text-xs text-muted mt-2">
-                  Harga Exclude Ongkir
-                </div>
-              </div>
-
-              {/* Description */}
-              <div className="space-y-3">
-                <h2 className="font-display text-lg">Tentang Buku</h2>
-                <p className="text-base leading-relaxed text-muted">
-                  {book.description}
-                </p>
-              </div>
+          <div className="flex flex-col">
+            <div className="flex flex-wrap items-center gap-2">
+              <ConditionBadge condition={book.condition} />
+              <EditionBadge edition={book.edition} />
+              {book.sold && <Tag tone="clay">Terjual</Tag>}
             </div>
 
-            {/* CTA */}
+            <h1 className="mt-4 font-display text-3xl text-ink md:text-4xl">
+              {book.title}
+            </h1>
+            {book.author && (
+              <p className="mt-2 text-lg text-body">{book.author}</p>
+            )}
+
+            <div className="mt-7 border-y border-rule">
+              <dl className="divide-y divide-rule">
+                <Row label="Bahasa">
+                  {book.language === 'id' ? 'Indonesia' : 'Inggris'}
+                </Row>
+                <Row label="Edisi">
+                  {book.edition === 'original' ? 'Original' : 'Non-original'}
+                </Row>
+                <Row label="Stok">
+                  {book.sold ? 'Sudah terjual' : '1 eksemplar'}
+                </Row>
+              </dl>
+            </div>
+
+            <div className="mt-7">
+              {ref && isSameEdition && (
+                <p className="text-base text-clay">
+                  <span className="line-through">{rupiah(ref)}</span>
+                  <span className="ml-2 text-sm">harga buku baru</span>
+                </p>
+              )}
+              <p className="font-display text-4xl font-semibold text-ink md:text-5xl">
+                {rupiah(book.price)}
+              </p>
+              <p className="mt-1 text-sm text-body">
+                Belum termasuk ongkir. Ongkir dikonfirmasi di WhatsApp setelah alamat
+                masuk.
+              </p>
+
+              {/* C-5: the comparison price is only shown with the listing it came from. */}
+              {ref && (
+                <p className="mt-3 border-l-2 border-edge pl-3 text-sm text-body">
+                  {isSameEdition
+                    ? 'Buku baru judul ini dijual '
+                    : 'Eksemplar ini bukan edisi resmi. Edisi resmi baru dijual '}
+                  {rupiah(ref)}
+                  {book.original_price_source && (
+                    <>
+                      {' '}
+                      <a
+                        href={book.original_price_source}
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                      >
+                        cek sumbernya
+                      </a>
+                    </>
+                  )}
+                  . Dicek 19 September 2026.
+                </p>
+              )}
+            </div>
+
             <DetailCTA book={book} />
+
+            <div className="mt-10">
+              <h2 className="font-display text-xl text-ink">Tentang buku ini</h2>
+              <p className="mt-3 max-w-prose text-base text-body">
+                {book.description}
+              </p>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Back */}
-      <section className="py-12 px-6 border-t border-rule text-center">
-        <Link
-          href="/#catalog"
-          className="inline-block px-6 py-2 text-accent font-display hover:opacity-80"
-        >
-          ← Kembali ke Katalog
-        </Link>
-      </section>
+      <div className="border-t border-rule bg-tan">
+        <div className="mx-auto max-w-5xl px-5 py-10 md:px-8">
+          <Link href="/#katalog" className="font-display text-lg">
+            Kembali ke katalog
+          </Link>
+        </div>
+      </div>
     </main>
   );
 }

@@ -12,7 +12,7 @@ export default function AdminPage() {
       <div className="py-12 px-6 md:py-20 md:px-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-display text-3xl mb-8">Admin Dashboard</h1>
-          <Suspense fallback={<div className="text-muted">Memuat...</div>}>
+          <Suspense fallback={<div className="text-body">Memuat...</div>}>
             <AdminContent />
           </Suspense>
         </div>

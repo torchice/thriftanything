@@ -1,15 +1,47 @@
 import type { Metadata } from 'next';
+import { Fraunces, DM_Sans } from 'next/font/google';
 import { CartProvider } from '@/lib/CartContext';
 import { PageLayout } from '@/components/PageLayout';
 import './globals.css';
 
+// Display: warm serif with soft curves, reads like a printed book cover (DESIGN.md).
+const display = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  axes: ['SOFT', 'WONK', 'opsz'],
+  weight: 'variable',
+  variable: '--font-display'
+});
+
+// Body: geometric but round, high x-height, comfortable at 16px on a phone.
+const body = DM_Sans({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: 'variable',
+  variable: '--font-body'
+});
+
+const DESCRIPTION =
+  'Buku bekas pilihan di Surabaya. Satu eksemplar per judul, foto asli buku yang dijual, kirim hari ini via Gojek Instant.';
+
 export const metadata: Metadata = {
-  title: 'Buku Bekas',
-  description: 'Buku bekas pilihan, satu eksemplar per judul. Prioritize Surabaya Area Via Gojek Instant.',
+  title: {
+    default: 'Buku Bekas, toko buku bekas Surabaya',
+    template: '%s | Buku Bekas'
+  },
+  description: DESCRIPTION,
   openGraph: {
-    title: 'Buku Bekas',
-    description: 'Buku bekas pilihan, satu eksemplar per judul. Prioritize Surabaya Area Via Gojek Instant.'
+    title: 'Buku Bekas, toko buku bekas Surabaya',
+    description: DESCRIPTION,
+    locale: 'id_ID',
+    type: 'website'
   }
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#FBF7EF'
 };
 
 export default function RootLayout({
@@ -18,12 +50,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body>
+    <html lang="id" className={`${display.variable} ${body.variable}`}>
+      <body className="bg-paper text-body">
+        <a
+          href="#konten"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-forest focus:px-4 focus:py-2 focus:text-paper"
+        >
+          Lompat ke konten
+        </a>
         <CartProvider>
           <PageLayout>{children}</PageLayout>
         </CartProvider>

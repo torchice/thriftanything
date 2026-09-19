@@ -1,10 +1,9 @@
-export function EditionBadge({ edition }: { edition: 'original' | 'non_original' }) {
-  const label = edition === 'original' ? 'ORIGINAL' : 'NON-ORIGINAL';
-  const textClass = edition === 'original' ? 'text-ink' : 'text-muted';
+import { Tag } from './Tag';
 
-  return (
-    <span className={`text-xs font-body font-semibold tracking-wider ${textClass}`}>
-      {label}
-    </span>
+export function EditionBadge({ edition }: { edition: 'original' | 'non_original' }) {
+  return edition === 'original' ? (
+    <Tag tone="green">Original</Tag>
+  ) : (
+    <Tag tone="outline">Non-original</Tag>
   );
 }

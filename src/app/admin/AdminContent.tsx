@@ -149,30 +149,30 @@ export function AdminContent() {
   }
 
   if (loading) {
-    return <div className="text-muted">Memuat...</div>;
+    return <div className="text-body">Memuat...</div>;
   }
 
   if (!authenticated) {
     return (
       <form onSubmit={handleLogin} className="max-w-xs space-y-4">
         <div>
-          <label className="block text-sm text-muted mb-2">Password Admin</label>
+          <label className="block text-sm text-body mb-2">Password Admin</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-accent"
+            className="w-full px-4 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-forest"
             placeholder="Masukkan password"
           />
         </div>
 
         {error && (
-          <div className="text-sm text-accent bg-accent/10 px-3 py-2">{error}</div>
+          <div className="text-sm text-forest bg-tint-clay px-3 py-2">{error}</div>
         )}
 
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-accent text-paper font-display hover:opacity-80"
+          className="w-full py-2 px-4 bg-forest text-paper font-display hover:opacity-80"
         >
           Login
         </button>
@@ -186,20 +186,20 @@ export function AdminContent() {
       <div className="text-right">
         <button
           onClick={handleLogout}
-          className="px-4 py-2 border border-rule text-ink hover:bg-rule/50"
+          className="px-4 py-2 border border-rule text-ink hover:bg-tan"
         >
           Logout
         </button>
       </div>
 
       {error && (
-        <div className="text-sm text-accent bg-accent/10 px-4 py-3">{error}</div>
+        <div className="text-sm text-forest bg-tint-clay px-4 py-3">{error}</div>
       )}
 
       {/* Books table */}
       <div className="overflow-x-auto border border-rule">
         <table className="w-full text-sm">
-          <thead className="border-b border-rule bg-rule/30">
+          <thead className="border-b border-rule bg-tan">
             <tr>
               <th className="text-left px-4 py-3 font-display">Judul</th>
               <th className="text-left px-4 py-3 font-display">Edisi</th>
@@ -213,12 +213,12 @@ export function AdminContent() {
             {books.map((book) => (
               <tr
                 key={book.slug}
-                className={`border-b border-rule hover:bg-rule/20 ${
+                className={`border-b border-rule hover:bg-tan ${
                   book.sold ? 'opacity-50' : ''
                 }`}
               >
                 <td className="px-4 py-3">{book.title}</td>
-                <td className="px-4 py-3 text-xs text-muted">
+                <td className="px-4 py-3 text-xs text-body">
                   {book.edition === 'original' ? 'Original' : 'Non-Original'}
                 </td>
                 <td className="text-right px-4 py-3">
@@ -226,18 +226,18 @@ export function AdminContent() {
                 </td>
                 <td className="text-right px-4 py-3 text-sm">
                   {book.original_price ? (
-                    <span className="text-muted line-through">
+                    <span className="text-body line-through">
                       Rp{book.original_price.toLocaleString('id-ID')}
                     </span>
                   ) : (
-                    <span className="text-muted">—</span>
+                    <span className="text-body">belum diisi</span>
                   )}
                 </td>
                 <td className="text-center px-4 py-3">
                   <span
                     className={`text-xs px-2 py-1 ${
                       book.sold
-                        ? 'bg-accent/20 text-accent'
+                        ? 'bg-tint-clay text-clay'
                         : 'bg-green-100/50 text-green-700'
                     }`}
                   >
@@ -247,7 +247,7 @@ export function AdminContent() {
                 <td className="text-center px-4 py-3 space-x-1">
                   <button
                     onClick={() => openPriceEditor(book)}
-                    className="px-3 py-1 text-xs border border-muted text-muted hover:bg-rule/30 transition-all"
+                    className="px-3 py-1 text-xs border border-edge text-body hover:bg-tan transition-all"
                   >
                     Edit Harga
                   </button>
@@ -259,7 +259,7 @@ export function AdminContent() {
                         ? 'opacity-50 cursor-not-allowed'
                         : book.sold
                           ? 'border-green-600 text-green-600 hover:bg-green-50'
-                          : 'border-accent text-accent hover:bg-accent/10'
+                          : 'border-forest text-forest hover:bg-tint-clay'
                     }`}
                   >
                     {book.sold ? 'Kembalikan' : 'Tandai Terjual'}
@@ -271,7 +271,7 @@ export function AdminContent() {
         </table>
       </div>
 
-      <div className="text-sm text-muted">
+      <div className="text-sm text-body">
         Total: {books.length} buku
         {books.some((b) => b.sold) && (
           <>
@@ -289,33 +289,33 @@ export function AdminContent() {
             <h3 className="font-display text-lg mb-4">Edit Harga</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-muted mb-2">Harga Saat Ini (Rp)</label>
+                <label className="block text-sm text-body mb-2">Harga Saat Ini (Rp)</label>
                 <input
                   type="number"
                   value={editPrice}
                   onChange={(e) => setEditPrice(e.target.value)}
-                  className="w-full px-3 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-accent"
+                  className="w-full px-3 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-forest"
                 />
               </div>
               <div>
-                <label className="block text-sm text-muted mb-2">Harga Asli (Rp) - Optional</label>
+                <label className="block text-sm text-body mb-2">Harga Asli (Rp) - Optional</label>
                 <input
                   type="number"
                   value={editOriginalPrice}
                   onChange={(e) => setEditOriginalPrice(e.target.value)}
-                  className="w-full px-3 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-accent"
+                  className="w-full px-3 py-2 border border-rule bg-paper text-ink focus:outline-none focus:border-forest"
                 />
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => updatePrice(editingSlug)}
-                  className="flex-1 py-2 px-4 bg-accent text-paper font-display hover:opacity-80"
+                  className="flex-1 py-2 px-4 bg-forest text-paper font-display hover:opacity-80"
                 >
                   Simpan
                 </button>
                 <button
                   onClick={() => setEditingSlug(null)}
-                  className="flex-1 py-2 px-4 border border-rule text-ink hover:bg-rule/50"
+                  className="flex-1 py-2 px-4 border border-rule text-ink hover:bg-tan"
                 >
                   Batal
                 </button>

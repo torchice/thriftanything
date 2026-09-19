@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useCart } from '@/lib/CartContext';
 import { CartDrawer } from './CartDrawer';
+import { SiteHeader } from './SiteHeader';
 
 export function PageLayout({ children }: { children: React.ReactNode }) {
   const [cartOpen, setCartOpen] = useState(false);
@@ -10,26 +11,30 @@ export function PageLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {children}
+      <SiteHeader cartCount={items.length} onOpenCart={() => setCartOpen(true)} />
 
-      {/* Cart FAB (sticky button on mobile) */}
-      <button
-        onClick={() => setCartOpen(true)}
-        className="fixed bottom-6 right-6 md:hidden z-30 w-16 h-16 bg-accent text-paper rounded-full flex items-center justify-center font-display text-sm hover:opacity-80 transition-opacity shadow-lg"
-      >
-        <span className="text-center">
-          <div>{items.length}</div>
-          <div className="text-xs">Keranjang</div>
-        </span>
-      </button>
+      <div id="konten" className={items.length > 0 ? 'pb-24 md:pb-0' : undefined}>
+        {children}
+      </div>
 
-      {/* Desktop cart button */}
-      <button
-        onClick={() => setCartOpen(true)}
-        className="hidden md:fixed md:top-6 md:right-6 z-30 md:flex items-center gap-2 px-4 py-3 bg-accent text-paper font-display hover:opacity-80 transition-opacity"
-      >
-        Keranjang ({items.length})
-      </button>
+      {/*
+        Mobile only, and only once the cart has something in it: an always-present
+        floating button on an empty cart is a control with nothing behind it.
+      */}
+      {items.length > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-edge bg-tan px-4 py-3 md:hidden">
+          <button
+            type="button"
+            onClick={() => setCartOpen(true)}
+            className="flex min-h-[48px] w-full items-center justify-between bg-forest px-5 text-paper transition-colors hover:bg-forest-deep"
+          >
+            <span className="text-sm font-medium">
+              {items.length} buku di keranjang
+            </span>
+            <span className="font-display text-lg">Lihat</span>
+          </button>
+        </div>
+      )}
 
       <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </>

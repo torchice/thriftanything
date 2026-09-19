@@ -1,11 +1,9 @@
 export function SoldStamp() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-      <div className="transform -rotate-45 text-center">
-        <div className="text-2xl font-display font-bold text-accent tracking-wider">
-          TERJUAL
-        </div>
-      </div>
-    </div>
+    <span className="absolute inset-0 flex items-center justify-center bg-paper/45">
+      <span className="-rotate-[8deg] border-2 border-clay bg-paper px-4 py-1 font-display text-lg font-semibold tracking-[0.18em] text-clay">
+        TERJUAL
+      </span>
+    </span>
   );
 }
