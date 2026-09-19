@@ -55,30 +55,37 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-paper text-ink">
       {/* Hero */}
-      <section className="py-12 px-6 md:py-24 md:px-12 border-b border-rule">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="font-display text-3xl md:text-5xl mb-4 leading-tight">
+      <section className="py-16 px-6 md:py-32 md:px-12 border-b border-rule">
+        <div className="max-w-2xl">
+          <h1 className="font-display text-4xl md:text-6xl mb-6 leading-tight">
             Buku bekas pilihan, satu eksemplar per judul.
           </h1>
-          <p className="text-lg text-muted mb-2">
-            Prioritize Surabaya Area Via Gojek Instant
-          </p>
-          <p className="text-sm text-muted mb-6">
-            Kirim hari ini juga, ongkir dibayar di tempat.
+          <p className="text-base md:text-lg text-muted mb-8 leading-relaxed">
+            Koleksi buku bekas berkualitas di Surabaya. Kirim hari ini juga, ongkir dibayar di tempat.
           </p>
           <a
             href="#catalog"
-            className="inline-block px-6 py-3 bg-accent text-paper font-display text-lg"
+            className="inline-block px-6 py-3 bg-accent text-paper font-display hover:opacity-80 transition-opacity"
           >
             Lihat Katalog
           </a>
         </div>
       </section>
 
+      {/* Key phrase */}
+      <section className="py-8 px-6 md:py-12 md:px-12 bg-rule/30 border-b border-rule">
+        <div className="max-w-2xl">
+          <p className="text-sm text-muted uppercase tracking-wider">Pengiriman</p>
+          <p className="font-display text-lg md:text-xl mt-2">
+            Prioritize Surabaya Area Via Gojek Instant
+          </p>
+        </div>
+      </section>
+
       {/* Catalog */}
-      <section id="catalog" className="py-12 px-4 md:py-20 md:px-6">
+      <section id="catalog" className="py-16 px-6 md:py-24 md:px-12 border-b border-rule">
         <div className="max-w-7xl mx-auto">
-          <h2 className="font-display text-2xl md:text-3xl mb-8">Katalog</h2>
+          <h2 className="font-display text-3xl md:text-4xl mb-12">Katalog</h2>
           <Suspense fallback={<div className="py-20 text-center text-muted">Memuat...</div>}>
             <BooksGrid />
           </Suspense>
@@ -86,59 +93,46 @@ export default function Home() {
       </section>
 
       {/* Cara Pesan */}
-      <section className="py-12 px-6 md:py-20 md:px-12 border-t border-rule">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-display text-2xl md:text-3xl mb-8">Cara Pesan</h2>
-          <ol className="space-y-6 text-base leading-relaxed">
-            <li>
-              <span className="font-display text-lg text-accent">1.</span>
-              <span className="ml-4">Pilih buku yang ingin dibeli, tambahkan ke keranjang.</span>
+      <section className="py-16 px-6 md:py-24 md:px-12 border-b border-rule">
+        <div className="max-w-2xl">
+          <h2 className="font-display text-3xl md:text-4xl mb-12">Cara Pesan</h2>
+          <ol className="space-y-8 text-base leading-relaxed">
+            <li className="flex gap-4">
+              <span className="font-display text-lg text-muted flex-shrink-0">1</span>
+              <span>Pilih buku yang ingin dibeli, tambahkan ke keranjang.</span>
             </li>
-            <li>
-              <span className="font-display text-lg text-accent">2.</span>
-              <span className="ml-4">Isi nama lengkap, alamat pengiriman, dan nomor WhatsApp.</span>
+            <li className="flex gap-4">
+              <span className="font-display text-lg text-muted flex-shrink-0">2</span>
+              <span>Isi nama lengkap, alamat pengiriman, dan nomor WhatsApp.</span>
             </li>
-            <li>
-              <span className="font-display text-lg text-accent">3.</span>
-              <span className="ml-4">Kirim pesanan ke WhatsApp. Admin akan konfirmasi total ongkir.</span>
+            <li className="flex gap-4">
+              <span className="font-display text-lg text-muted flex-shrink-0">3</span>
+              <span>Kirim pesanan ke WhatsApp. Admin akan konfirmasi total ongkir.</span>
             </li>
           </ol>
         </div>
       </section>
 
-      {/* Pengiriman */}
-      <section className="py-12 px-6 md:py-20 md:px-12 border-t border-rule">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-display text-2xl md:text-3xl mb-4">Pengiriman</h2>
-          <p className="text-base text-accent font-semibold mb-4">
-            Prioritize Surabaya Area Via Gojek Instant
-          </p>
-          <p className="text-base leading-relaxed text-muted">
-            Luar Surabaya dikirim via JNE/J&T, ongkir menyusul setelah konfirmasi.
-          </p>
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="py-12 px-6 md:py-20 md:px-12 border-t border-rule">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="font-display text-2xl md:text-3xl mb-8">Tanya Jawab</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-display text-lg mb-2">Apakah semua buku original?</h3>
-              <p className="text-sm text-muted">
+      <section className="py-16 px-6 md:py-24 md:px-12 border-b border-rule">
+        <div className="max-w-2xl">
+          <h2 className="font-display text-3xl md:text-4xl mb-12">Tanya Jawab</h2>
+          <div className="space-y-8 divide-y divide-rule">
+            <div className="pt-0">
+              <h3 className="font-display text-lg mb-3">Apakah semua buku original?</h3>
+              <p className="text-base text-muted leading-relaxed">
                 Tidak semua. Setiap listing jelas disebutkan edisi original atau non-original. Foto adalah asli buku yang dijual.
               </p>
             </div>
-            <div>
-              <h3 className="font-display text-lg mb-2">Bagaimana jika buku terjual?</h3>
-              <p className="text-sm text-muted">
+            <div className="pt-8">
+              <h3 className="font-display text-lg mb-3">Bagaimana jika buku terjual?</h3>
+              <p className="text-base text-muted leading-relaxed">
                 Buku akan ditandai TERJUAL dan tidak bisa ditambah ke keranjang. Jika ada perubahan kondisi stok saat Anda checkout, kami akan konfirmasi di WhatsApp.
               </p>
             </div>
-            <div>
-              <h3 className="font-display text-lg mb-2">Ada garansi rusak di jalan?</h3>
-              <p className="text-sm text-muted">
+            <div className="pt-8">
+              <h3 className="font-display text-lg mb-3">Ada garansi rusak di jalan?</h3>
+              <p className="text-base text-muted leading-relaxed">
                 Lapor di WhatsApp dengan foto. Kami handle case by case sesuai kondisi pengepakan.
               </p>
             </div>
@@ -147,8 +141,16 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-rule text-center text-sm text-muted">
-        <p>Hubungi: <a href="https://wa.me/6281216530559" className="text-accent">wa.me/6281216530559</a></p>
+      <footer className="py-12 px-6 md:py-16 md:px-12 border-t border-rule">
+        <div className="max-w-2xl">
+          <p className="text-sm text-muted mb-4">Punya pertanyaan? Hubungi kami</p>
+          <a
+            href="https://wa.me/6281216530559"
+            className="inline-block px-6 py-3 border border-accent text-accent font-display text-base hover:bg-accent hover:text-paper transition-colors"
+          >
+            Chat di WhatsApp
+          </a>
+        </div>
       </footer>
     </main>
   );
