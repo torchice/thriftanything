@@ -48,7 +48,18 @@ OS gelap. Satu tema yang benar mengalahkan dua tema yang setengah.
 ## Dial
 - **ENERGY**: 2 (hangat, bukan diam total)
 - **RHYTHM**: 2 (grid konsisten, dua jeda sengaja: pita fakta tipis + pita eco full-bleed)
-- **MOTION**: 1 (hover + focus saja, 150ms. Tidak ada animasi scroll, tidak ada loop)
+- **MOTION**: 2 (hover + focus 150ms, plus satu reveal saat scroll. Tidak ada loop)
+
+### Reveal saat scroll (alasan tertulis, R-19)
+Halaman ini satu rak panjang. Tiap blok muncul sekali dengan fade + geser 10px
+selama 450ms supaya batas antar bagian kebaca, lalu observer-nya dilepas. Bukan
+fade-up 40px yang dipakai tiap landing page. Aturannya:
+- Hero tidak ikut. Yang di atas lipatan harus langsung ada.
+- Satu reveal per blok, bukan per elemen. Stagger maksimal 2 langkah (80ms, 160ms).
+- Sekali jalan, lalu `unobserve`. Tidak ada yang berulang.
+- State tersembunyi hanya aktif kalau JS sudah konfirmasi (`.js-reveal`) DAN
+  pembaca tidak minta `prefers-reduced-motion: reduce`. Tanpa JS semua blok
+  tampil normal.
 
 ## Kartu buku: aturan tinggi
 Judul 2 baris tidak boleh menggeser harga. Kartu = flex kolom tinggi penuh:

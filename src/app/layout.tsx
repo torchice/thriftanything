@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Fraunces, DM_Sans } from 'next/font/google';
 import { CartProvider } from '@/lib/CartContext';
 import { PageLayout } from '@/components/PageLayout';
+import { ScrollReveal } from '@/components/ScrollReveal';
 import './globals.css';
 
 // Display: warm serif with soft curves, reads like a printed book cover (DESIGN.md).
@@ -50,7 +51,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${display.variable} ${body.variable}`}>
+    // suppressHydrationWarning: the pre-paint script below stamps
+    // data-reveal-ready on <html>, an attribute React never rendered.
+    <html
+      lang="id"
+      className={`${display.variable} ${body.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/*
+          Runs before paint so reveal blocks never flash visible then hide.
+          Without JS the attribute is absent and every block renders normally.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.setAttribute('data-reveal-ready','')}}catch(e){}"
+          }}
+        />
+      </head>
       <body className="bg-paper text-body">
         <a
           href="#konten"
@@ -61,6 +80,7 @@ export default function RootLayout({
         <CartProvider>
           <PageLayout>{children}</PageLayout>
         </CartProvider>
+        <ScrollReveal />
       </body>
     </html>
   );

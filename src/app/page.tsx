@@ -164,7 +164,7 @@ export default function Home() {
       */}
       <section className="border-b border-rule bg-tan">
         <div className="mx-auto grid max-w-6xl gap-6 px-5 py-8 md:grid-cols-3 md:gap-10 md:px-8 md:py-10">
-          <div>
+          <div data-reveal>
             <h2 className="font-display text-lg text-ink display-sm">
               Fotonya buku yang aslinya
             </h2>
@@ -173,7 +173,7 @@ export default function Home() {
               apa adanya.
             </p>
           </div>
-          <div>
+          <div data-reveal style={{ '--reveal-delay': '80ms' } as React.CSSProperties}>
             <h2 className="font-display text-lg text-ink display-sm">
               Satu judul, satu biji
             </h2>
@@ -182,7 +182,7 @@ export default function Home() {
               keranjang lagi.
             </p>
           </div>
-          <div>
+          <div data-reveal style={{ '--reveal-delay': '160ms' } as React.CSSProperties}>
             <h2 className="font-display text-lg text-ink display-sm">
               Surabaya duluan, Gojek Instant
             </h2>
@@ -197,11 +197,13 @@ export default function Home() {
       {/* Catalog */}
       <section id="katalog" className="scroll-mt-20 border-b border-rule">
         <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
-          <h2 className="font-display text-3xl text-ink md:text-4xl">Rak aku</h2>
-          <p className="mb-8 mt-2 max-w-prose text-base text-body">
-            Urutannya dari yang paling baru aku taro. Yang udah kejual tetep aku pajang
-            biar kamu tau aja pernah ada.
-          </p>
+          <div data-reveal>
+            <h2 className="font-display text-3xl text-ink md:text-4xl">Rak aku</h2>
+            <p className="mb-8 mt-2 max-w-prose text-base text-body">
+              Urutannya dari yang paling baru aku taro. Yang udah kejual tetep aku
+              pajang biar kamu tau aja pernah ada.
+            </p>
+          </div>
           <Suspense fallback={<GridSkeleton />}>
             <BooksGrid />
           </Suspense>
@@ -214,14 +216,20 @@ export default function Home() {
       */}
       <section id="cara-pesan" className="scroll-mt-20 border-b border-rule">
         <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
-          <h2 className="font-display text-3xl text-ink md:text-4xl">Cara belinya</h2>
-          <p className="mb-10 mt-2 max-w-prose text-base text-body">
+          <h2 data-reveal className="font-display text-3xl text-ink md:text-4xl">
+            Cara belinya
+          </h2>
+          <p data-reveal className="mb-10 mt-2 max-w-prose text-base text-body">
             Gak usah bikin akun, gak ada payment gateway. Semuanya kelar di WhatsApp
             biar ongkir sama stoknya aku cek sendiri, bukan sistem.
           </p>
 
           <ol className="grid gap-px border border-rule bg-rule md:grid-cols-3">
-            <li className="bg-paper p-6 md:p-8">
+            <li
+              data-reveal
+              style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
+              className="bg-paper p-6 md:p-8"
+            >
               <span className="font-display text-4xl text-edge">01</span>
               <h3 className="mt-3 min-h-[1.35em] font-display text-xl text-ink">
                 Masukin ke keranjang
@@ -231,7 +239,11 @@ export default function Home() {
                 liat apa-apa.
               </p>
             </li>
-            <li className="bg-paper p-6 md:p-8">
+            <li
+              data-reveal
+              style={{ '--reveal-delay': '80ms' } as React.CSSProperties}
+              className="bg-paper p-6 md:p-8"
+            >
               <span className="font-display text-4xl text-edge">02</span>
               <h3 className="mt-3 min-h-[1.35em] font-display text-xl text-ink">
                 Isi nama, alamat, nomor WA
@@ -240,7 +252,11 @@ export default function Home() {
                 Buat ngitung ongkir sama nulis label kirim. Gak aku simpen di server.
               </p>
             </li>
-            <li className="bg-paper p-6 md:p-8">
+            <li
+              data-reveal
+              style={{ '--reveal-delay': '160ms' } as React.CSSProperties}
+              className="bg-paper p-6 md:p-8"
+            >
               <span className="font-display text-4xl text-edge">03</span>
               <h3 className="mt-3 min-h-[1.35em] font-display text-xl text-ink">
                 Kirim pesanannya ke WA aku
@@ -260,7 +276,7 @@ export default function Home() {
       */}
       <section className="bg-forest text-paper">
         <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
-          <div className="max-w-prose">
+          <div data-reveal className="max-w-prose">
             <h2 className="font-display text-3xl text-paper md:text-4xl">
               Buku bekas ya tetep buku.
             </h2>
@@ -281,11 +297,11 @@ export default function Home() {
       {/* FAQ: three questions people actually send on WhatsApp. */}
       <section className="border-b border-rule">
         <div className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-20">
-          <h2 className="font-display text-3xl text-ink md:text-4xl">
+          <h2 data-reveal className="font-display text-3xl text-ink md:text-4xl">
             Yang sering ditanyain
           </h2>
           <dl className="mt-10 max-w-prose divide-y divide-rule border-y border-rule">
-            <div className="py-6">
+            <div data-reveal className="py-6">
               <dt className="font-display text-lg text-ink">
                 Semua bukunya ori?
               </dt>
@@ -294,7 +310,7 @@ export default function Home() {
                 ngikut. Fotonya buku yang beneran bakal aku kirim.
               </dd>
             </div>
-            <div className="py-6">
+            <div data-reveal className="py-6">
               <dt className="font-display text-lg text-ink">
                 Gimana kalau kejual pas aku lagi checkout?
               </dt>
@@ -304,7 +320,7 @@ export default function Home() {
                 apa-apa.
               </dd>
             </div>
-            <div className="py-6">
+            <div data-reveal className="py-6">
               <dt className="font-display text-lg text-ink">
                 Kalau rusak di jalan gimana?
               </dt>
@@ -318,7 +334,7 @@ export default function Home() {
       </section>
 
       <footer className="bg-tan">
-        <div className="mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
+        <div data-reveal className="mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
           <p className="font-display text-2xl text-ink">Thrift Anything</p>
           <p className="mt-1 max-w-prose text-sm text-body">
             Ini rak buku pribadi aku di Surabaya, bukan toko. Mau nanya stok, kondisi,

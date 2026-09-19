@@ -71,7 +71,10 @@ export function BookCard({ book }: { book: BookCardData }) {
     : 0;
 
   return (
-    <article className="group flex h-full flex-col border border-rule bg-tan transition-colors duration-150 hover:border-edge">
+    <article
+      data-reveal
+      className="group flex h-full flex-col border border-rule bg-tan transition-colors duration-150 hover:border-edge"
+    >
       <Link
         href={href}
         tabIndex={-1}
