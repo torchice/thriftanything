@@ -1,20 +1,51 @@
 import { Suspense } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { BookCard } from '@/components/BookCard';
 
 export const revalidate = 60;
 
+interface Book {
+  slug: string;
+  title: string;
+  author: string | null;
+  language: string;
+  edition: 'original' | 'non_original';
+  price: number;
+  description: string;
+  photo_url: string;
+  sold: boolean;
+}
+
 async function BooksGrid() {
-  // TODO: fetch from Supabase after P1
-  // const { data: books } = await createClient()
-  //   .from('books')
-  //   .select('*')
-  //   .eq('sold', false)
-  //   .order('created_at', { ascending: false });
+  const supabase = createClient();
+
+  const { data: books, error } = await supabase
+    .from('books')
+    .select('*')
+    .order('sold', { ascending: true })
+    .order('created_at', { ascending: false });
+
+  if (error || !books) {
+    return (
+      <div className="text-center py-20 col-span-full text-muted">
+        Gagal memuat katalog. Coba lagi nanti.
+      </div>
+    );
+  }
+
+  if (books.length === 0) {
+    return (
+      <div className="text-center py-20 col-span-full text-muted">
+        Katalog kosong.
+      </div>
+    );
+  }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
-      <div className="text-center py-20 col-span-full text-muted">
-        Katalog akan tersedia setelah database dikonfigurasi.
-      </div>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {books.map((book: Book) => (
+        <BookCard key={book.slug} book={book} />
+      ))}
     </div>
   );
 }
@@ -44,8 +75,8 @@ export default function Home() {
       </section>
 
       {/* Catalog */}
-      <section id="catalog" className="py-12 px-6 md:py-20 md:px-12">
-        <div className="max-w-6xl mx-auto">
+      <section id="catalog" className="py-12 px-4 md:py-20 md:px-6">
+        <div className="max-w-7xl mx-auto">
           <h2 className="font-display text-2xl md:text-3xl mb-8">Katalog</h2>
           <Suspense fallback={<div className="py-20 text-center text-muted">Memuat...</div>}>
             <BooksGrid />
