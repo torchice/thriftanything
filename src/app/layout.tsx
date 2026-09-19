@@ -22,16 +22,16 @@ const body = DM_Sans({
 });
 
 const DESCRIPTION =
-  'Buku bekas pilihan di Surabaya. Satu eksemplar per judul, foto asli buku yang dijual, kirim hari ini via Gojek Instant.';
+  'Rak buku bekas punya aku di Surabaya. Satu judul satu biji, fotonya buku yang aslinya, kirim bisa nyampe hari itu juga lewat Gojek Instant.';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Buku Bekas, toko buku bekas Surabaya',
+    default: 'Buku Bekas, rak buku pribadi di Surabaya',
     template: '%s | Buku Bekas'
   },
   description: DESCRIPTION,
   openGraph: {
-    title: 'Buku Bekas, toko buku bekas Surabaya',
+    title: 'Buku Bekas, rak buku pribadi di Surabaya',
     description: DESCRIPTION,
     locale: 'id_ID',
     type: 'website'
@@ -56,7 +56,7 @@ export default function RootLayout({
           href="#konten"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-forest focus:px-4 focus:py-2 focus:text-paper"
         >
-          Lompat ke konten
+          Langsung ke isi
         </a>
         <CartProvider>
           <PageLayout>{children}</PageLayout>

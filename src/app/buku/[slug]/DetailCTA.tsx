@@ -18,9 +18,9 @@ export function DetailCTA({ book }: { book: Book }) {
   if (book.sold) {
     return (
       <div className="mt-8 border border-edge bg-tint-clay p-4">
-        <p className="font-display text-lg text-ink">Eksemplar ini sudah terjual</p>
+        <p className="font-display text-lg text-ink">Yang ini udah laku</p>
         <p className="mt-1 text-sm text-body">
-          Tidak ada restock untuk judul ini. Chat kami kalau mau dicarikan yang serupa.
+          Gak ada gantinya buat judul ini. Chat aja kalau mau aku cariin yang mirip.
         </p>
         <a
           href="https://wa.me/6281216530559"
@@ -28,7 +28,7 @@ export function DetailCTA({ book }: { book: Book }) {
           rel="noopener noreferrer"
           className="mt-3 inline-flex min-h-[44px] items-center border border-forest px-5 text-base text-forest no-underline transition-colors hover:bg-forest hover:text-paper"
         >
-          Tanya stok serupa
+          Tanyain yang mirip
         </a>
       </div>
     );
@@ -55,7 +55,7 @@ export function DetailCTA({ book }: { book: Book }) {
             : 'border-forest bg-forest text-paper hover:bg-forest-deep'
         }`}
       >
-        {added ? 'Masuk keranjang' : 'Tambah ke keranjang'}
+        {added ? 'Udah masuk' : 'Masukin keranjang'}
       </button>
       <a
         href="https://wa.me/6281216530559"
@@ -63,7 +63,7 @@ export function DetailCTA({ book }: { book: Book }) {
         rel="noopener noreferrer"
         className="inline-flex min-h-[52px] flex-1 items-center justify-center border border-edge px-6 text-base text-body no-underline transition-colors hover:border-forest hover:text-forest-deep"
       >
-        Tanya via WhatsApp
+        Tanya dulu di WA
       </a>
     </div>
   );

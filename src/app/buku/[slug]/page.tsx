@@ -74,11 +74,11 @@ export default async function BookDetail({
   return (
     <main>
       <nav
-        aria-label="Remah roti"
+        aria-label="Jalur halaman"
         className="border-b border-rule bg-tan px-5 py-3 text-sm md:px-8"
       >
         <div className="mx-auto flex max-w-5xl items-center gap-2">
-          <Link href="/#katalog">Katalog</Link>
+          <Link href="/#katalog">Rak buku</Link>
           <span aria-hidden="true" className="text-edge">
             /
           </span>
@@ -100,8 +100,8 @@ export default async function BookDetail({
               />
             </div>
             <p className="mt-3 text-sm text-body">
-              Foto ini adalah buku yang dikirim, bukan foto stok penerbit. Kondisi
-              seperti terlihat.
+              Ini foto buku yang bakal aku kirim, bukan foto stok penerbit. Kondisinya
+              ya kayak yang keliatan.
             </p>
           </div>
 
@@ -109,7 +109,7 @@ export default async function BookDetail({
             <div className="flex flex-wrap items-center gap-2">
               <ConditionBadge condition={book.condition} />
               <EditionBadge edition={book.edition} />
-              {book.sold && <Tag tone="clay">Terjual</Tag>}
+              {book.sold && <Tag tone="clay">Udah laku</Tag>}
             </div>
 
             <h1 className="mt-4 font-display text-3xl text-ink md:text-4xl">
@@ -125,10 +125,10 @@ export default async function BookDetail({
                   {book.language === 'id' ? 'Indonesia' : 'Inggris'}
                 </Row>
                 <Row label="Edisi">
-                  {book.edition === 'original' ? 'Original' : 'Non-original'}
+                  {book.edition === 'original' ? 'Ori' : 'Bukan ori'}
                 </Row>
                 <Row label="Stok">
-                  {book.sold ? 'Sudah terjual' : '1 eksemplar'}
+                  {book.sold ? 'Udah laku' : '1 biji'}
                 </Row>
               </dl>
             </div>
@@ -137,14 +137,14 @@ export default async function BookDetail({
               {ref && isSameEdition && (
                 <p className="text-base text-clay">
                   <span className="line-through">{rupiah(ref)}</span>
-                  <span className="ml-2 text-sm">harga buku baru</span>
+                  <span className="ml-2 text-sm">harga barunya</span>
                 </p>
               )}
               <p className="font-display text-4xl font-semibold text-ink md:text-5xl">
                 {rupiah(book.price)}
               </p>
               <p className="mt-1 text-sm text-body">
-                Belum termasuk ongkir. Ongkir dikonfirmasi di WhatsApp setelah alamat
+                Belum ongkir. Ongkirnya aku kabarin di WhatsApp begitu alamat kamu
                 masuk.
               </p>
 
@@ -152,8 +152,8 @@ export default async function BookDetail({
               {ref && (
                 <p className="mt-3 border-l-2 border-edge pl-3 text-sm text-body">
                   {isSameEdition
-                    ? 'Buku baru judul ini dijual '
-                    : 'Eksemplar ini bukan edisi resmi. Edisi resmi baru dijual '}
+                    ? 'Yang baru judul ini dijual '
+                    : 'Yang ini bukan edisi resmi. Edisi resminya kalau beli baru '}
                   {rupiah(ref)}
                   {book.original_price_source && (
                     <>
@@ -163,11 +163,11 @@ export default async function BookDetail({
                         target="_blank"
                         rel="noopener noreferrer nofollow"
                       >
-                        cek sumbernya
+                        cek sendiri
                       </a>
                     </>
                   )}
-                  . Dicek 19 September 2026.
+                  . Aku cek 19 September 2026.
                 </p>
               )}
             </div>
@@ -175,7 +175,7 @@ export default async function BookDetail({
             <DetailCTA book={book} />
 
             <div className="mt-10">
-              <h2 className="font-display text-xl text-ink">Tentang buku ini</h2>
+              <h2 className="font-display text-xl text-ink">Isinya tentang apa</h2>
               <p className="mt-3 max-w-prose text-base text-body">
                 {book.description}
               </p>
@@ -187,7 +187,7 @@ export default async function BookDetail({
       <div className="border-t border-rule bg-tan">
         <div className="mx-auto max-w-5xl px-5 py-10 md:px-8">
           <Link href="/#katalog" className="font-display text-lg">
-            Kembali ke katalog
+            Balik ke rak
           </Link>
         </div>
       </div>

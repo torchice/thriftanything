@@ -3,9 +3,9 @@ import { Tag } from './Tag';
 export type BookCondition = 'like_new' | 'very_good' | 'good';
 
 const LABELS: Record<BookCondition, { label: string; tone: 'green' | 'tan' | 'outline' }> = {
-  like_new: { label: 'Seperti baru', tone: 'green' },
-  very_good: { label: 'Sangat baik', tone: 'tan' },
-  good: { label: 'Baik', tone: 'outline' }
+  like_new: { label: 'Kayak baru', tone: 'green' },
+  very_good: { label: 'Masih mulus', tone: 'tan' },
+  good: { label: 'Layak baca', tone: 'outline' }
 };
 
 /*

@@ -50,7 +50,7 @@ function AddToCartButton({ book }: { book: BookCardData }) {
           : 'border border-forest bg-forest text-paper hover:bg-forest-deep'
       }`}
     >
-      {added ? 'Masuk keranjang' : 'Tambah ke keranjang'}
+      {added ? 'Udah masuk' : 'Masukin keranjang'}
     </button>
   );
 }
@@ -90,7 +90,7 @@ export function BookCard({ book }: { book: BookCardData }) {
         {book.sold && <SoldStamp />}
         {!book.sold && cut > 0 && (
           <span className="absolute left-0 top-0 bg-clay px-2 py-1 text-xs font-bold text-paper">
-            {cut}% di bawah harga toko
+            {cut}% lebih murah
           </span>
         )}
       </Link>
@@ -125,13 +125,13 @@ export function BookCard({ book }: { book: BookCardData }) {
           </p>
           <p className="mb-3 text-xs text-body">
             {ref && !isSameEdition
-              ? `Edisi resmi baru ${rupiah(ref)}. Belum termasuk ongkir`
-              : 'Belum termasuk ongkir'}
+              ? `Yang ori barunya ${rupiah(ref)}. Belum ongkir`
+              : 'Belum ongkir'}
           </p>
 
           {book.sold ? (
             <div className="flex min-h-[44px] items-center">
-              <Tag tone="clay">Terjual</Tag>
+              <Tag tone="clay">Udah laku</Tag>
             </div>
           ) : (
             <AddToCartButton book={book} />

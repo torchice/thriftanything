@@ -84,11 +84,11 @@ export function CartDrawer({
     e.preventDefault();
 
     if (!buyer.name.trim() || !buyer.address.trim() || !buyer.phone.trim()) {
-      setError('Nama, alamat, dan nomor WhatsApp harus diisi semua.');
+      setError('Nama, alamat, sama nomor WA-nya diisi semua ya.');
       return;
     }
     if (!/^(\+?62|0)8\d{7,12}$/.test(buyer.phone.replace(/[\s-]/g, ''))) {
-      setError('Nomor WhatsApp belum benar. Contoh: 081216530559.');
+      setError('Nomor WA-nya kayaknya keliru. Contohnya: 081216530559.');
       return;
     }
 
@@ -118,7 +118,7 @@ export function CartDrawer({
       >
         <div className="flex items-center justify-between border-b border-rule px-5 py-4">
           <h2 id={titleId} className="font-display text-xl text-ink">
-            {step === 'cart' ? 'Keranjang' : 'Data pengiriman'}
+            {step === 'cart' ? 'Keranjang' : 'Alamat kirim'}
           </h2>
           <button
             ref={closeRef}
@@ -134,10 +134,10 @@ export function CartDrawer({
           {step === 'cart' ? (
             items.length === 0 ? (
               <div className="border border-rule bg-tan px-5 py-10 text-center">
-                <p className="font-display text-lg text-ink">Keranjang masih kosong</p>
+                <p className="font-display text-lg text-ink">Keranjangnya masih kosong</p>
                 <p className="mt-2 text-sm text-body">
-                  Tutup panel ini dan tambahkan buku dari katalog. Keranjang tersimpan
-                  di browser Anda sampai pesanan dikirim.
+                  Tutup dulu ini terus pilih bukunya dari rak. Keranjangnya kesimpen
+                  di browser kamu sampai pesanannya kekirim.
                 </p>
               </div>
             ) : (
@@ -147,7 +147,7 @@ export function CartDrawer({
                     <div className="min-w-0 flex-1">
                       <p className="font-display text-base text-ink">{item.title}</p>
                       <p className="mt-1 text-xs text-body">
-                        {item.edition === 'original' ? 'Original' : 'Non-original'}
+                        {item.edition === 'original' ? 'Ori' : 'Bukan ori'}
                       </p>
                       <p className="mt-2 font-display text-lg text-ink">
                         {rupiah(item.price)}
@@ -180,7 +180,7 @@ export function CartDrawer({
                   aria-invalid={Boolean(error) || undefined}
                   aria-describedby={error ? errorId : undefined}
                   className={field}
-                  placeholder="Nama penerima paket"
+                  placeholder="Nama yang nerima paket"
                 />
               </div>
 
@@ -238,7 +238,7 @@ export function CartDrawer({
                   </span>
                 </div>
                 <p className="mt-1 text-xs text-body">
-                  Belum termasuk ongkir. Kami balas dengan total akhir di WhatsApp.
+                  Belum ongkir. Total akhirnya nanti aku bales di WhatsApp.
                 </p>
               </div>
             </form>
@@ -269,7 +269,7 @@ export function CartDrawer({
                 form="checkout-form"
                 className="min-h-[48px] w-full bg-forest px-4 font-display text-lg text-paper transition-colors hover:bg-forest-deep"
               >
-                Kirim pesanan ke WhatsApp
+                Kirim pesanannya ke WA aku
               </button>
               <button
                 type="button"
@@ -279,7 +279,7 @@ export function CartDrawer({
                 }}
                 className="min-h-[44px] w-full border border-edge px-4 text-sm text-body transition-colors hover:border-forest hover:text-forest-deep"
               >
-                Kembali ke keranjang
+                Balik ke keranjang
               </button>
             </>
           )}

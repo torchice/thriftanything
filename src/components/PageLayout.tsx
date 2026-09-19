@@ -31,7 +31,7 @@ export function PageLayout({ children }: { children: React.ReactNode }) {
             <span className="text-sm font-medium">
               {items.length} buku di keranjang
             </span>
-            <span className="font-display text-lg">Lihat</span>
+            <span className="font-display text-lg">Cek</span>
           </button>
         </div>
       )}

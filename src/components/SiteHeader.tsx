@@ -15,7 +15,7 @@ export function SiteHeader({
         <Link
           href="/"
           className="no-underline focus-visible:outline-offset-4"
-          aria-label="Buku Bekas, ke halaman depan"
+          aria-label="Buku Bekas, balik ke depan"
         >
           <span className="block font-display text-xl leading-none text-ink md:text-2xl">
             Buku Bekas
@@ -30,13 +30,13 @@ export function SiteHeader({
             href="/#katalog"
             className="hidden px-3 py-2 text-sm text-body no-underline hover:text-forest-deep sm:inline-block"
           >
-            Katalog
+            Rak buku
           </Link>
           <Link
             href="/#cara-pesan"
             className="hidden px-3 py-2 text-sm text-body no-underline hover:text-forest-deep sm:inline-block"
           >
-            Cara pesan
+            Cara beli
           </Link>
 
           <button
@@ -52,7 +52,7 @@ export function SiteHeader({
               {cartCount}
             </span>
             <span className="sr-only">
-              {cartCount === 0 ? 'kosong' : `berisi ${cartCount} buku`}
+              {cartCount === 0 ? 'masih kosong' : `isinya ${cartCount} buku`}
             </span>
           </button>
         </nav>

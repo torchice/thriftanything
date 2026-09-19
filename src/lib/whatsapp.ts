@@ -16,15 +16,15 @@ const ADMIN_WA = '6281216530559';
 export function buildOrderMessage(items: CartItem[], buyer: Buyer): string {
   const lines = items.map(
     (b, i) =>
-      `${i + 1}. ${b.title} (${b.edition === 'original' ? 'Original' : 'Non-original'}): Rp${b.price.toLocaleString('id-ID')}`
+      `${i + 1}. ${b.title} (${b.edition === 'original' ? 'Ori' : 'Bukan ori'}): Rp${b.price.toLocaleString('id-ID')}`
   );
   const total = items.reduce((s, b) => s + b.price, 0);
 
   return [
-    'Halo, saya mau pesan buku berikut:',
+    'Halo, aku mau pesen buku ini:',
     ...lines,
     '',
-    `Subtotal: Rp${total.toLocaleString('id-ID')} (belum termasuk ongkir)`,
+    `Subtotal: Rp${total.toLocaleString('id-ID')} (belum ongkir)`,
     '',
     `Nama: ${buyer.name}`,
     `Alamat: ${buyer.address}`,
