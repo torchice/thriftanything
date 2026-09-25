@@ -7,3 +7,6 @@ build
 *.pem
 .DS_Store
 .vercel
+
+# WhatsApp OTP sync secrets (moved to ~/.golektruk-otp by install.sh)
+scripts/wa-otp-sync/config.local
