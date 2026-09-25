@@ -73,7 +73,19 @@ export function OtpContent() {
   }, []);
 
   useEffect(() => {
-    load();
+    // Shared link: /otp?k=<key> logs in by itself, so viewers never type anything.
+    const key = new URLSearchParams(window.location.search).get('k');
+    (async () => {
+      if (key) {
+        const res = await fetch('/api/otp/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: key })
+        });
+        if (!res.ok) setError('Link tidak valid. Minta link terbaru.');
+      }
+      load();
+    })();
     const tick = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(tick);
   }, [load]);
