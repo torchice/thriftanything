@@ -19,7 +19,12 @@ MATCH=$(printf '%s' "$CHAT_MATCH" | tr -cd '[:alnum:]' | tr '[:upper:]' '[:lower
 GROUP_FILTER="AND s.ZCONTACTJID NOT LIKE '%@g.us'"
 [ "$INCLUDE_GROUPS" = "1" ] && GROUP_FILTER=""
 
-run_sql() { /usr/bin/sqlite3 -readonly "$@" "file:$DB?mode=ro" 2>&1; }
+# Usage: run_sql [sqlite3 options...] "SQL". The database path must come before the SQL.
+run_sql() {
+  local opts=()
+  while [ $# -gt 1 ]; do opts+=("$1"); shift; done
+  /usr/bin/sqlite3 -readonly "${opts[@]}" "$DB" "$1" 2>&1
+}
 
 LAST=$(cat "$STATE" 2>/dev/null | tr -cd '0-9')
 if [ -z "$LAST" ]; then
@@ -35,7 +40,7 @@ ROWS=$(run_sql -json "
   SELECT COALESCE(s.ZCONTACTJID,'') || ':' || COALESCE(m.ZSTANZAID, m.Z_PK) AS id,
          s.ZPARTNERNAME AS chat_name,
          CASE WHEN m.ZISFROMME = 1 THEN NULL ELSE COALESCE(NULLIF(gm.ZCONTACTNAME,''), NULLIF(gm.ZFIRSTNAME,''), s.ZPARTNERNAME) END AS sender,
-         CASE WHEN m.ZISFROMME = 1 THEN json('true') ELSE json('false') END AS from_me,
+         CASE WHEN m.ZISFROMME = 1 THEN 1 ELSE 0 END AS from_me,
          m.ZTEXT AS body,
          strftime('%Y-%m-%dT%H:%M:%SZ', m.ZMESSAGEDATE + 978307200, 'unixepoch') AS sent_at
   FROM ZWAMESSAGE m
@@ -58,8 +63,9 @@ CODE=$(printf '{"messages":%s}' "$ROWS" | /usr/bin/curl -sS -o "$HOME_DIR/last_r
 
 if [ "$CODE" = "200" ]; then
   echo "$NEW_LAST" > "$STATE"
-  [ "$NEW_LAST" != "$LAST" ] && log "sent messages up to pk $NEW_LAST"
+  if [ "$NEW_LAST" != "$LAST" ]; then log "sent messages up to pk $NEW_LAST"; fi
 else
   log "ERROR: ingest returned HTTP $CODE: $(head -c 300 "$HOME_DIR/last_response")"
   exit 1
 fi
+exit 0
